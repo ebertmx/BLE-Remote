@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "BT_REMOTE",
+			"path": "BT_REMOTE"
+		},
+		{
+			"name": "BT_DISPLAY",
+			"path": "BT_DISPLAY"
+		}
+	],
+	"settings": {
+		"nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.4.2}",
+		"nrf-connect.applications": [],
+		"files.associations": {
+			"uuid.h": "c",
+			"conn.h": "c"
+		}
+	}
+}
