@@ -58,6 +58,7 @@ int main(void)
                 k_sleep(K_MSEC(500));
                 stop_adv();
                 stop_scan();
+                
                 adv_data[6]--;
                 k_sleep(K_MSEC(500));
         }
