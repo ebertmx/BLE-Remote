@@ -14,7 +14,9 @@
 	],
 	"settings": {
 		"nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.4.2}",
-		"nrf-connect.applications": [],
+		"nrf-connect.applications": [
+			"${workspaceFolder:BT_REMOTE}"
+		],
 		"files.associations": {
 			"uuid.h": "c",
 			"conn.h": "c"

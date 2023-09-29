@@ -14,7 +14,9 @@
 
 // GPIO
 #define LED0_NODE DT_ALIAS(led0)
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+// static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+uint8_t adv_data[] = {'R', 'E', 'M', '0', '1', 'x', 9};
+
 
 int main(void)
 {
@@ -42,26 +44,25 @@ int main(void)
                 k_sleep(K_MSEC(100));
         }
 
-        int err;
 
-        // GPIO
-        // if (!gpio_is_ready_dt(&led))
-        // {
-        //         return 0;
-        // }
-        // err = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-        // // err = gpio_pin_configure_dt(&led_r, GPIO_OUTPUT_ACTIVE);
-        // if (err < 0)
-        // {
-        //         return 0;
-        // }
-        // GPIO
-  
-        //TIMER
-       // timer_init(1);
-        //TIMER
+        bluetooth_init();
 
-        bluetooth_init(); 
+        static const struct bt_data ad[] = {
+            BT_DATA(BT_DATA_MANUFACTURER_DATA, adv_data, 7),
+        };
+
+        while (1)
+        {
+                start_adv(ad);
+                start_scan();
+                k_sleep(K_MSEC(500));
+                stop_adv();
+                stop_scan();
+                adv_data[6]--;
+                k_sleep(K_MSEC(500));
+        }
+
+
         while (1)
         {
                 k_sleep(K_FOREVER);
