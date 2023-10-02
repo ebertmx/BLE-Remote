@@ -39,7 +39,7 @@ struct bt_data adv_data[] = {
     BT_DATA(BT_DATA_MANUFACTURER_DATA, dev_data, 8),
 };
 
-static uint8_t conn_dev[] = {'D', 'I', 'S', '0', '1', 'x', 9};
+static uint8_t conn_dev[] = {'D', 'I', 'S', '0', '1', 'x'};
 uint8_t S_CONN_DEV = sizeof(conn_dev);
 
 // INTERRUPTS
@@ -83,7 +83,7 @@ void dodge_clock()
                 int ret = k_sem_take(&scanning, K_MSEC(CANCEL_ACK_DELAY));
                 stop_adv();  // stop advertising
                 stop_scan(); // stop scanning
-                printk("\nret: %d    Displayed = %d\n", ret, dis_count);
+                             // printk("\nret: %d    Displayed = %d\n", ret, dis_count);
         }
 }
 
@@ -103,12 +103,12 @@ void shot_timer_count_cb(struct k_timer *timer_id)
                 count = 10;
                 // k_timer_stop(&shot_timer);
         }
-        printk("Timer count = %d\n", count);
+        //  printk("Timer count = %d\n", count);
 }
 
 void shot_timer_end_cb(struct k_timer *timer_id)
 {
-        printk("Timer end\n");
+        // printk("Timer end\n");
 }
 
 void scan_cb(const bt_addr_le_t *addr, int8_t rssi, uint8_t adv_type,
@@ -116,6 +116,11 @@ void scan_cb(const bt_addr_le_t *addr, int8_t rssi, uint8_t adv_type,
 {
         bool read_dev = false;
         int i = 0;
+
+        if (k_sem_count_get(&scanning) != 0)
+        {
+                return;
+        }
 
         // check for DIS device
         for (i = 0; i < buf->len; i++)
@@ -155,10 +160,9 @@ void scan_cb(const bt_addr_le_t *addr, int8_t rssi, uint8_t adv_type,
         // device is a DIS
         if (read_dev)
         {
-
-                // printk("(REMOTE):");
-                // printk(" dev = %s  ", device);
-                // printk(" count = %d\n", buf->data[i]);
+                printk("(REMOTE):");
+                printk(" dev = %s  ", device);
+                printk(" count = %d\n", buf->data[i]);
                 dis_count = buf->data[i];
                 k_sem_give(&scanning);
         }
