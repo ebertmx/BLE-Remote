@@ -12,6 +12,8 @@
 #include "d_UART_helper.c"
 #include "d_BT_helper.c"
 
+extern volatile uint8_t count;
+
 int main(void)
 {
 	const struct device *const dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
@@ -30,6 +32,12 @@ int main(void)
 #endif
 
 	bluetooth_init();
+
+	while(1)
+	{
+		k_sleep(K_MSEC(100));
+		printk("Count = %d", count);
+	}
 
 	return 0;
 }

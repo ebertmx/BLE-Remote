@@ -2,18 +2,19 @@
 #include <zephyr/sys/printk.h>
 #include <zephyr/types.h>
 
-struct k_timer my_timer;
-void my_expiry_function(struct k_timer *timer_id);
+extern struct k_timer shot_timer;
+extern void shot_timer_end_cb(struct k_timer *timer_id);
+extern void shot_timer_count_cb(struct k_timer *timer_id);
 
-K_TIMER_DEFINE(my_timer, my_expiry_function, NULL);
 
-void my_expiry_function(struct k_timer *timer_id)
+K_TIMER_DEFINE(my_timer, shot_timer_count_cb, shot_timer_end_cb);
+
+void shot_timer_start(int period)
 {
-
- printk("Timer FINISHED\n");
-
+    k_timer_start(&shot_timer, K_SECONDS(period), K_SECONDS(period));
 }
 
-void timer_init(int period){
-    k_timer_start(&my_timer, K_SECONDS(1), K_SECONDS(1));
+void shot_timer_stop()
+{
+    k_timer_stop(&shot_timer);
 }
