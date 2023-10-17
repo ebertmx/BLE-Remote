@@ -1,2 +1,2 @@
-# Battery BLE Remote
- A BLE remote design to run a 7-segment shot clock.
+# BLE Remote
+ A battery powered BLE remote design to run a 7-segment shot clock.
